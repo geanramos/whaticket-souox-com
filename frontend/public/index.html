@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/apple-touch-icon.png" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta
+      name="viewport"
+      content="minimum-scale=1, initial-scale=1, width=device-width"
+    />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    
+    <style>
+      /* Reset e configurações básicas */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        overflow: hidden;
+      }
+
+      /* Tela de loading com tom de azul da tela de login */
+      #splash-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.5s ease-out;
+      }
+
+      /* Padrão de pontos animados no fundo */
+      #splash-screen::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          radial-gradient(circle at 25% 25%, rgba(255,255,255,0.08) 1px, transparent 1px),
+          radial-gradient(circle at 75% 75%, rgba(255,255,255,0.08) 1px, transparent 1px);
+        background-size: 50px 50px;
+        animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0px) rotate(0deg); }
+        50% { transform: translateY(-10px) rotate(180deg); }
+      }
+
+      #splash-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        z-index: 10;
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Logo container */
+      .logo-container {
+        margin-bottom: 40px;
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      .logo-placeholder {
+        width: 140px;
+        height: 140px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 
+          0 25px 50px rgba(0, 0, 0, 0.15),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* Ícone de chat/atendimento no centro do logo */
+      .logo-placeholder::before {
+        content: '';
+        width: 70px;
+        height: 70px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 16px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .logo-placeholder::after {
+        content: '💬';
+        position: absolute;
+        font-size: 32px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+      }
+
+      @keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+
+      /* Título e subtítulo */
+      .loading-title {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+        letter-spacing: -0.02em;
+        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .loading-subtitle {
+        font-size: 18px;
+        font-weight: 500;
+        color: rgba(255, 255, 255, 0.85);
+        margin-bottom: 50px;
+        letter-spacing: 0.01em;
+      }
+
+      /* Spinner moderno com tema azul */
+      .modern-spinner {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 35px;
+        position: relative;
+      }
+
+      .spinner-ring {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: 3px solid rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+      }
+
+      .spinner-ring:nth-child(1) {
+        border-top: 3px solid #ffffff;
+        border-right: 3px solid rgba(255, 255, 255, 0.3);
+        animation: spin 1.2s linear infinite;
+      }
+
+      .spinner-ring:nth-child(2) {
+        border-right: 3px solid rgba(255, 255, 255, 0.7);
+        border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+        animation: spin 1.2s linear infinite reverse;
+        animation-delay: -0.15s;
+        transform: scale(0.8);
+      }
+
+      .spinner-ring:nth-child(3) {
+        border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+        border-left: 3px solid rgba(255, 255, 255, 0.2);
+        animation: spin 1.2s linear infinite;
+        animation-delay: -0.3s;
+        transform: scale(0.6);
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      /* Barra de progresso moderna */
+      .progress-container {
+        width: 320px;
+        max-width: 85vw;
+        margin-bottom: 25px;
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        overflow: hidden;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 
+          inset 0 2px 4px rgba(0, 0, 0, 0.1),
+          0 1px 0 rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .progress {
+        height: 100%;
+        background: linear-gradient(90deg, 
+          rgba(255, 255, 255, 0.9) 0%, 
+          rgba(255, 255, 255, 1) 50%, 
+          rgba(255, 255, 255, 0.9) 100%);
+        background-size: 200% 100%;
+        border-radius: 12px;
+        width: 0;
+        transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        animation: shimmer 2.5s ease-in-out infinite;
+        box-shadow: 
+          0 0 15px rgba(255, 255, 255, 0.4),
+          0 0 30px rgba(255, 255, 255, 0.2);
+        position: relative;
+      }
+
+      .progress::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, 
+          transparent 0%, 
+          rgba(255, 255, 255, 0.3) 50%, 
+          transparent 100%);
+        animation: progress-shine 2s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+
+      @keyframes progress-shine {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+      }
+
+      /* Indicador de progresso */
+      .progress-text {
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.95);
+        text-align: center;
+        margin-top: 15px;
+        font-family: 'Roboto Mono', monospace;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Status messages */
+      .status-message {
+        font-size: 15px;
+        color: rgba(255, 255, 255, 0.8);
+        margin-top: 25px;
+        min-height: 22px;
+        animation: fadeIn 0.5s ease-in-out;
+        font-weight: 500;
+        max-width: 300px;
+        text-align: center;
+        line-height: 1.4;
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* Efeito de fade out melhorado */
+      #splash-screen.fade-out {
+        opacity: 0;
+        transform: scale(1.05);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Efeitos adicionais de partículas */
+      .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: particle-float 8s ease-in-out infinite;
+      }
+
+      .particle:nth-child(1) {
+        width: 6px;
+        height: 6px;
+        left: 10%;
+        animation-delay: 0s;
+      }
+
+      .particle:nth-child(2) {
+        width: 4px;
+        height: 4px;
+        left: 70%;
+        animation-delay: 2s;
+      }
+
+      .particle:nth-child(3) {
+        width: 8px;
+        height: 8px;
+        left: 90%;
+        animation-delay: 4s;
+      }
+
+      @keyframes particle-float {
+        0%, 100% {
+          transform: translateY(100vh) rotate(0deg);
+          opacity: 0;
+        }
+        10%, 90% {
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(-10vh) rotate(180deg);
+        }
+      }
+
+      /* Responsividade melhorada */
+      @media (max-width: 768px) {
+        .loading-title {
+          font-size: 30px;
+        }
+        
+        .loading-subtitle {
+          font-size: 16px;
+        }
+        
+        .modern-spinner {
+          width: 70px;
+          height: 70px;
+        }
+        
+        .progress-container {
+          width: 280px;
+        }
+        
+        .logo-placeholder {
+          width: 120px;
+          height: 120px;
+        }
+
+        .logo-placeholder::before {
+          width: 60px;
+          height: 60px;
+        }
+
+        .logo-placeholder::after {
+          font-size: 28px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .loading-title {
+          font-size: 26px;
+        }
+        
+        .loading-subtitle {
+          font-size: 14px;
+        }
+        
+        .progress-container {
+          width: 240px;
+        }
+        
+        .logo-placeholder {
+          width: 100px;
+          height: 100px;
+        }
+
+        .logo-placeholder::before {
+          width: 50px;
+          height: 50px;
+        }
+
+        .logo-placeholder::after {
+          font-size: 24px;
+        }
+
+        .status-message {
+          font-size: 14px;
+          max-width: 250px;
+        }
+      }
+
+      /* Prefers reduced motion */
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+
+      /* Efeito adicional de brilho na borda */
+      .logo-placeholder {
+        box-shadow: 
+          0 25px 50px rgba(0, 0, 0, 0.15),
+          inset 0 1px 0 rgba(255, 255, 255, 0.2),
+          0 0 40px rgba(59, 130, 246, 0.2);
+      }
+    </style>
+
+    <!-- Issue workaround for React v16. -->
+    <script>
+      // See https://github.com/facebook/react/issues/20829#issuecomment-802088260
+      if (!crossOriginIsolated) SharedArrayBuffer = ArrayBuffer;
+    </script>
+  </head>
+
+  <body>
+    <div id="splash-screen">
+      <!-- Partículas flutuantes -->
+      <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+
+      <div id="splash-content">
+        <div class="logo-container">
+          <div class="logo-placeholder"></div>
+        </div>
+        
+        <p class="loading-subtitle">Carregando sua experiência...</p>
+        
+        <div class="modern-spinner">
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+          <div class="spinner-ring"></div>
+        </div>
+        
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress" id="progress-bar"></div>
+          </div>
+          <div class="progress-text" id="progress-text">0%</div>
+        </div>
+        
+        <div class="status-message" id="status-message">Inicializando aplicação...</div>
+      </div>
+    </div>
+
+    <div id="root"></div>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+
+    <script>
+      let progress = 0;
+      const progressBar = document.getElementById("progress-bar");
+      const progressText = document.getElementById("progress-text");
+      const statusMessage = document.getElementById("status-message");
+      
+      const statusMessages = [
+        "Inicializando aplicação...",
+        "Carregando componentes...",
+        "Configurando interface...", 
+        "Conectando serviços...",
+        "Preparando AutoAtende...",
+        "Finalizando carregamento..."
+      ];
+      
+      let messageIndex = 0;
+      
+      const interval = setInterval(() => {
+        if (progress < 25) {
+          progress += Math.random() * 4 + 2;
+        } else if (progress < 50) {
+          progress += Math.random() * 3 + 1;
+        } else if (progress < 80) {
+          progress += Math.random() * 2 + 0.5;
+        } else if (progress < 95) {
+          progress += (95 - progress) / 10;
+        }
+        
+        // Atualizar barra de progresso
+        const currentProgress = Math.min(progress, 100);
+        progressBar.style.width = currentProgress + "%";
+        progressText.textContent = Math.floor(currentProgress) + "%";
+        
+        // Atualizar mensagem de status
+        const newMessageIndex = Math.floor((currentProgress / 100) * statusMessages.length);
+        if (newMessageIndex !== messageIndex && newMessageIndex < statusMessages.length) {
+          messageIndex = newMessageIndex;
+          statusMessage.style.opacity = '0';
+          setTimeout(() => {
+            statusMessage.textContent = statusMessages[messageIndex];
+            statusMessage.style.opacity = '1';
+          }, 200);
+        }
+        
+        if (progress >= 100) {
+          clearInterval(interval);
+          statusMessage.textContent = "Redirecionando...";
+          
+          setTimeout(() => {
+            const splashScreen = document.getElementById("splash-screen");
+            splashScreen.classList.add('fade-out');
+            
+            setTimeout(() => {
+              splashScreen.remove();
+            }, 1000);
+          }, 1500);
+        }
+      }, 120);
+      
+      // Função para finalizar o progresso externamente
+      window.finishProgress = () => {
+        progress = 100;
+      };
+      
+      // Garantir que a tela seja removida caso o React carregue muito rápido
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          if (progress < 85) {
+            progress = 85;
+          }
+        }, 800);
+      });
+      
+      // Timeout de segurança para remover a tela após tempo máximo
+      setTimeout(() => {
+        if (document.getElementById("splash-screen")) {
+          window.finishProgress();
+        }
+      }, 15000);
+    </script>
+  </body>
+</html>

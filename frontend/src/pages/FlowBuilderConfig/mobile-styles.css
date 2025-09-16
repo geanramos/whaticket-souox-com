@@ -1,0 +1,618 @@
+/* FlowBuilder Bottom Sheet + Sidebar Layout - CSS com suporte a tema */
+
+/* Layout principal - sem scroll desnecessário */
+.flow-builder-root {
+  height: 100vh !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.flow-builder-content {
+  flex: 1 !important;
+  display: flex !important;
+  overflow: hidden !important;
+}
+
+/* Sidebar colapsável - DESKTOP ONLY - adaptado para tema */
+.flow-builder-sidebar {
+  transition: width 0.3s ease !important;
+  background: var(--background-paper) !important;
+  border-right: 1px solid var(--divider) !important;
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
+}
+
+.flow-builder-sidebar-content {
+  overflow-y: auto !important;
+  height: 100% !important;
+}
+
+/* Esconder sidebar em mobile */
+@media (max-width: 768px) {
+  .flow-builder-sidebar {
+    display: none !important;
+  }
+}
+
+/* Flow container - ocupa espaço restante */
+.flow-builder-flow-container {
+  flex: 1 !important;
+  position: relative !important;
+  overflow: hidden !important;
+  background: var(--background-default) !important;
+}
+
+/* Bottom Sheet - MOBILE ONLY - adaptado para tema */
+.flow-builder-bottom-sheet {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  background: var(--background-paper) !important;
+  border-top-left-radius: 20px !important;
+  border-top-right-radius: 20px !important;
+  box-shadow: var(--shadow-8) !important;
+  border: 1px solid var(--divider) !important;
+  z-index: 1500 !important;
+  max-height: 80vh !important;
+  transform: translateY(100%) !important;
+  transition: transform 0.3s ease !important;
+}
+
+.flow-builder-bottom-sheet.open {
+  transform: translateY(0) !important;
+}
+
+.flow-builder-bottom-sheet-handle {
+  width: 40px !important;
+  height: 4px !important;
+  background: var(--divider) !important;
+  border-radius: 2px !important;
+  margin: 8px auto !important;
+  cursor: pointer !important;
+}
+
+.flow-builder-bottom-sheet-content {
+  padding: 16px !important;
+  overflow-y: auto !important;
+  max-height: calc(80vh - 60px) !important;
+  background: var(--background-paper) !important;
+}
+
+/* Esconder bottom sheet em desktop */
+@media (min-width: 769px) {
+  .flow-builder-bottom-sheet {
+    display: none !important;
+  }
+}
+
+/* FAB Buttons - adaptado para tema */
+.flow-builder-fab-save {
+  position: fixed !important;
+  bottom: 16px !important;
+  right: 16px !important;
+  z-index: 1400 !important;
+  background-color: var(--primary-main) !important;
+  color: var(--primary-contrast-text) !important;
+  box-shadow: var(--shadow-6) !important;
+  transition: all 0.3s ease !important;
+}
+
+.flow-builder-fab-save:hover {
+  transform: scale(1.1) !important;
+  background-color: var(--primary-dark) !important;
+  box-shadow: var(--shadow-12) !important;
+}
+
+.flow-builder-fab-add {
+  position: fixed !important;
+  bottom: 16px !important;
+  left: 16px !important;
+  z-index: 1400 !important;
+  background-color: var(--secondary-main) !important;
+  color: var(--secondary-contrast-text) !important;
+  box-shadow: var(--shadow-6) !important;
+}
+
+.flow-builder-fab-add:hover {
+  background-color: var(--secondary-dark) !important;
+}
+
+/* Ajustar FAB em mobile quando bottom sheet está aberto */
+@media (max-width: 768px) {
+  .flow-builder-fab-save {
+    bottom: 80px !important;
+  }
+}
+
+/* Esconder FAB de adicionar em desktop */
+@media (min-width: 769px) {
+  .flow-builder-fab-add {
+    display: none !important;
+  }
+}
+
+/* Quick Actions - DESKTOP ONLY - adaptado para tema */
+.flow-builder-quick-actions {
+  position: fixed !important;
+  top: 80px !important;
+  right: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  z-index: 1200 !important;
+}
+
+.flow-builder-quick-action-btn {
+  background: var(--background-paper) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: var(--shadow-3) !important;
+  border: 1px solid var(--divider) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease !important;
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.flow-builder-quick-action-btn:hover {
+  background: var(--action-hover) !important;
+  transform: scale(1.05) !important;
+  box-shadow: var(--shadow-6) !important;
+  color: var(--primary-main) !important;
+}
+
+/* Esconder quick actions em mobile */
+@media (max-width: 768px) {
+  .flow-builder-quick-actions {
+    display: none !important;
+  }
+}
+
+/* Mobile Controls - adaptado para tema */
+.flow-builder-mobile-controls {
+  position: fixed !important;
+  bottom: 80px !important;
+  left: 16px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  z-index: 1300 !important;
+}
+
+.flow-builder-control-btn {
+  background: var(--background-paper) !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: var(--shadow-3) !important;
+  border: 1px solid var(--divider) !important;
+  color: var(--text-primary) !important;
+  width: 48px !important;
+  height: 48px !important;
+  transition: all 0.2s ease !important;
+}
+
+.flow-builder-control-btn:hover {
+  background: var(--action-hover) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Esconder mobile controls em desktop */
+@media (min-width: 769px) {
+  .flow-builder-mobile-controls {
+    display: none !important;
+  }
+}
+
+/* React Flow Customizations - adaptado para tema */
+.react-flow__renderer {
+  touch-action: manipulation !important;
+}
+
+.react-flow__controls {
+  display: none !important; /* Usar nossos controles customizados */
+}
+
+.react-flow__minimap {
+  bottom: 16px !important;
+  right: 80px !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  background: var(--background-paper) !important;
+  border: 1px solid var(--divider) !important;
+}
+
+/* Esconder minimap em mobile */
+@media (max-width: 768px) {
+  .react-flow__minimap {
+    display: none !important;
+  }
+}
+
+.react-flow__attribution {
+  display: none !important;
+}
+
+/* Node styles para mobile - adaptado para tema */
+@media (max-width: 768px) {
+  .react-flow__node {
+    min-width: 160px !important;
+    min-height: 60px !important;
+    font-size: 14px !important;
+    background: var(--background-paper) !important;
+    border: 1px solid var(--divider) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .react-flow__handle {
+    width: 16px !important;
+    height: 16px !important;
+    border-width: 3px !important;
+    background: var(--primary-main) !important;
+    border-color: var(--primary-dark) !important;
+  }
+
+  .react-flow__edge-path {
+    stroke-width: 8px !important;
+    stroke: var(--primary-main) !important;
+  }
+}
+
+/* Node styles para tablet - adaptado para tema */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .react-flow__node {
+    min-width: 150px !important;
+    min-height: 55px !important;
+    font-size: 13px !important;
+    background: var(--background-paper) !important;
+    border: 1px solid var(--divider) !important;
+    color: var(--text-primary) !important;
+  }
+
+  .react-flow__handle {
+    width: 14px !important;
+    height: 14px !important;
+    background: var(--primary-main) !important;
+    border-color: var(--primary-dark) !important;
+  }
+
+  .react-flow__edge-path {
+    stroke-width: 7px !important;
+    stroke: var(--primary-main) !important;
+  }
+}
+
+/* Node hover e selected states - adaptado para tema */
+.react-flow__node {
+  transition: all 0.2s ease !important;
+  border-radius: 8px !important;
+  box-shadow: var(--shadow-2) !important;
+  background: var(--background-paper) !important;
+  border: 1px solid var(--divider) !important;
+  color: var(--text-primary) !important;
+}
+
+.react-flow__node:hover {
+  box-shadow: var(--shadow-4) !important;
+  border-color: var(--primary-light) !important;
+}
+
+.react-flow__node.selected {
+  box-shadow: var(--shadow-6) !important;
+  border: 2px solid var(--primary-main) !important;
+}
+
+/* Edge styles - adaptado para tema */
+.react-flow__edge-path {
+  transition: all 0.2s ease !important;
+  stroke: var(--primary-main) !important;
+}
+
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke-width: 10px !important;
+  stroke: var(--primary-dark) !important;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: var(--primary-main) !important;
+  stroke-width: 10px !important;
+}
+
+/* Sidebar node buttons - adaptado para tema */
+.flow-builder-node-btn {
+  justify-content: flex-start !important;
+  text-transform: none !important;
+  padding: 12px !important;
+  margin-bottom: 4px !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  width: 100% !important;
+  color: var(--text-primary) !important;
+}
+
+.flow-builder-node-btn:hover {
+  background-color: var(--action-hover) !important;
+  transform: translateX(4px) !important;
+}
+
+.flow-builder-collapsed-btn {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  padding: 0 !important;
+  margin: 4px 6px !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  color: var(--text-primary) !important;
+}
+
+.flow-builder-collapsed-btn:hover {
+  background-color: var(--action-hover) !important;
+}
+
+/* Category headers - adaptado para tema */
+.flow-builder-category-header {
+  padding: 12px !important;
+  background: var(--action-hover) !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  color: var(--text-primary) !important;
+}
+
+.flow-builder-category-header:hover {
+  background: var(--action-selected) !important;
+}
+
+/* Bottom sheet grid - adaptado para tema */
+.flow-builder-bottom-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 16px !important;
+}
+
+.flow-builder-category-card {
+  padding: 12px !important;
+  border-radius: 8px !important;
+  border: 1px solid var(--divider) !important;
+  background: var(--background-paper) !important;
+}
+
+.flow-builder-category-title {
+  font-weight: bold !important;
+  margin-bottom: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: var(--text-primary) !important;
+}
+
+.flow-builder-category-btn {
+  width: 100% !important;
+  margin-bottom: 4px !important;
+  justify-content: flex-start !important;
+  text-transform: none !important;
+  font-size: 0.8rem !important;
+  padding: 8px 12px !important;
+  color: var(--text-primary) !important;
+  border-color: var(--divider) !important;
+}
+
+.flow-builder-category-btn:hover {
+  background-color: var(--action-hover) !important;
+}
+
+/* Loading overlay - adaptado para tema */
+.flow-builder-loading {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 70vh !important;
+  background: var(--background-paper) !important;
+}
+
+/* Touch improvements */
+@media (pointer: coarse) {
+  .MuiIconButton-root {
+    padding: 12px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+  }
+  
+  .MuiButton-root {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+  }
+
+  .MuiListItem-button {
+    min-height: 56px !important;
+    padding: 12px 16px !important;
+  }
+}
+
+/* Variáveis CSS para tema claro */
+:root {
+  --background-default: #f5f5f5;
+  --background-paper: #ffffff;
+  --text-primary: rgba(0, 0, 0, 0.87);
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --divider: rgba(0, 0, 0, 0.12);
+  --primary-main: #1976d2;
+  --primary-dark: #1565c0;
+  --primary-light: #42a5f5;
+  --primary-contrast-text: #ffffff;
+  --secondary-main: #dc004e;
+  --secondary-dark: #9a0036;
+  --secondary-contrast-text: #ffffff;
+  --action-hover: rgba(0, 0, 0, 0.04);
+  --action-selected: rgba(0, 0, 0, 0.08);
+  --shadow-2: 0px 1px 3px rgba(0, 0, 0, 0.12);
+  --shadow-3: 0px 1px 5px rgba(0, 0, 0, 0.12);
+  --shadow-4: 0px 2px 4px rgba(0, 0, 0, 0.14);
+  --shadow-6: 0px 3px 5px rgba(0, 0, 0, 0.2);
+  --shadow-8: 0px 5px 5px rgba(0, 0, 0, 0.2);
+  --shadow-12: 0px 7px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Variáveis CSS para tema escuro */
+[data-theme="dark"], 
+.theme-dark,
+[class*="dark"] {
+  --background-default: #121212;
+  --background-paper: #1e1e1e;
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --divider: rgba(255, 255, 255, 0.12);
+  --primary-main: #90caf9;
+  --primary-dark: #42a5f5;
+  --primary-light: #e3f2fd;
+  --primary-contrast-text: #000000;
+  --secondary-main: #f48fb1;
+  --secondary-dark: #ad2d57;
+  --secondary-contrast-text: #000000;
+  --action-hover: rgba(255, 255, 255, 0.08);
+  --action-selected: rgba(255, 255, 255, 0.12);
+  --shadow-2: 0px 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-3: 0px 1px 5px rgba(0, 0, 0, 0.4);
+  --shadow-4: 0px 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-6: 0px 3px 5px rgba(0, 0, 0, 0.6);
+  --shadow-8: 0px 5px 5px rgba(0, 0, 0, 0.6);
+  --shadow-12: 0px 7px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Detecção automática de tema escuro do sistema */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-default: #121212;
+    --background-paper: #1e1e1e;
+    --text-primary: rgba(255, 255, 255, 0.87);
+    --text-secondary: rgba(255, 255, 255, 0.6);
+    --divider: rgba(255, 255, 255, 0.12);
+    --primary-main: #90caf9;
+    --primary-dark: #42a5f5;
+    --primary-light: #e3f2fd;
+    --primary-contrast-text: #000000;
+    --secondary-main: #f48fb1;
+    --secondary-dark: #ad2d57;
+    --secondary-contrast-text: #000000;
+    --action-hover: rgba(255, 255, 255, 0.08);
+    --action-selected: rgba(255, 255, 255, 0.12);
+    --shadow-2: 0px 1px 3px rgba(0, 0, 0, 0.4);
+    --shadow-3: 0px 1px 5px rgba(0, 0, 0, 0.4);
+    --shadow-4: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    --shadow-6: 0px 3px 5px rgba(0, 0, 0, 0.6);
+    --shadow-8: 0px 5px 5px rgba(0, 0, 0, 0.6);
+    --shadow-12: 0px 7px 8px rgba(0, 0, 0, 0.6);
+  }
+}
+
+/* Accessibility */
+.flow-builder-node-btn:focus-visible,
+.flow-builder-quick-action-btn:focus-visible,
+.flow-builder-control-btn:focus-visible {
+  outline: 2px solid var(--primary-main) !important;
+  outline-offset: 2px !important;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* Performance optimizations */
+.react-flow__viewport {
+  will-change: transform !important;
+}
+
+.react-flow__node {
+  will-change: transform !important;
+}
+
+/* Print support */
+@media print {
+  .flow-builder-sidebar,
+  .flow-builder-bottom-sheet,
+  .flow-builder-fab-save,
+  .flow-builder-fab-add,
+  .flow-builder-quick-actions,
+  .flow-builder-mobile-controls,
+  .react-flow__minimap {
+    display: none !important;
+  }
+}
+
+/* Landscape mobile adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+  .flow-builder-bottom-sheet {
+    max-height: 60vh !important;
+  }
+  
+  .flow-builder-mobile-controls {
+    bottom: 60px !important;
+  }
+}
+
+/* High contrast support */
+@media (prefers-contrast: high) {
+  .react-flow__edge-path {
+    stroke-width: 8px !important;
+  }
+
+  .react-flow__node {
+    border-width: 2px !important;
+  }
+
+  .react-flow__handle {
+    border-width: 3px !important;
+  }
+}
+
+/* Scrollbar customization - adaptado para tema */
+.flow-builder-sidebar-content::-webkit-scrollbar,
+.flow-builder-bottom-sheet-content::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.flow-builder-sidebar-content::-webkit-scrollbar-track,
+.flow-builder-bottom-sheet-content::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+.flow-builder-sidebar-content::-webkit-scrollbar-thumb,
+.flow-builder-bottom-sheet-content::-webkit-scrollbar-thumb {
+  background: var(--divider) !important;
+  border-radius: 3px !important;
+}
+
+.flow-builder-sidebar-content::-webkit-scrollbar-thumb:hover,
+.flow-builder-bottom-sheet-content::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary) !important;
+}
+
+/* Fix para mobile - tela branca */
+.flow-builder-mobile-container {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100vh !important;
+  background: var(--background-default) !important;
+}
+
+@media (max-width: 768px) {
+  .react-flow {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .react-flow__renderer {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  
+  .flow-builder-flow-container {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: calc(100vh - 64px) !important;
+  }
+}
