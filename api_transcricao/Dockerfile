@@ -1,0 +1,38 @@
+FROM python:3.11-alpine AS builder
+
+WORKDIR /transcreve-api
+
+RUN apk add --no-cache git ffmpeg build-base
+
+COPY . .
+
+RUN pip install --no-cache-dir -r requirements.txt --target=/transcreve-api/venv
+
+FROM python:3.11-alpine
+
+WORKDIR /transcreve-api
+
+RUN apk add --no-cache \
+    bash \
+    dumb-init \
+    tzdata \
+    ffmpeg \
+    flac \
+    wget \
+    ca-certificates
+
+ENV TZ=America/Sao_Paulo
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY --from=builder /transcreve-api /transcreve-api
+
+ENV PYTHONPATH=/transcreve-api/venv
+ENV PATH=/transcreve-api/venv/bin:$PATH
+
+EXPOSE 4002
+
+ENTRYPOINT ["dumb-init", "--"]
+
+CMD ["gunicorn", "--bind", "0.0.0.0:4002", "main:app", "--workers", "4", "--log-level", "info", "--timeout", "150"]
+
+# docker buildx build -t registry.whatsatende.com.br/whatsatende/api_transcricao:1.0 --platform linux/arm64 --push .
