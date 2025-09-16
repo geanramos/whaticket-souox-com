@@ -1,0 +1,32 @@
+# Stage 1: build
+FROM node:21.6.2 AS builder
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
+
+# Copy application source code
+COPY . .
+
+# Build the project
+RUN npm run build
+
+# Stage 2: runtime
+FROM node:21.6.2
+WORKDIR /app
+
+# Install utilities (only essential ones)
+RUN apt-get update && apt-get install -y \
+    curl ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+
+# Copy build artifacts and dependencies
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package*.json ./
+
+EXPOSE 8080
+CMD ["node", "dist/server.js"]
+
+

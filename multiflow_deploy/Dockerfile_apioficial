@@ -1,0 +1,38 @@
+# Stage 1: build
+FROM node:21.6.2 AS builder
+WORKDIR /app
+
+# 1) Dependências e Prisma
+COPY package*.json ./
+RUN npm install
+COPY prisma ./prisma
+RUN npx prisma generate
+
+# 2) Código-fonte e build
+COPY . .
+RUN npm run build
+
+# Stage 2: runtime
+FROM node:21.6.2
+WORKDIR /app
+
+# 3) Ferramentas de diagnóstico (apenas o essencial para o runtime)
+RUN apt-get update && \
+    apt-get install -y curl ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+# 4) Copia somente o que precisa para rodar
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/dist        ./dist
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/prisma      ./prisma
+
+# 5) Porta (pega de ENV ou padrão 3000)
+ARG PORT=3000
+ENV PORT=${PORT}
+EXPOSE ${PORT}
+
+# 6) Start
+CMD ["node", "dist/main.js"]
+
+
