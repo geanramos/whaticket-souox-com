@@ -1,0 +1,26 @@
+services:
+  api_oficial:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: 'api_oficial'
+    environment:
+      - POSTGRES_USER=waticket
+      - POSTGRES_PASSWORD=SENHA
+      - DATABASE_LINK=postgresql://USUARIO:SENHA@localhost:5432/api_oficial?schema=public
+      - NAME_ADMIN=SetupAutomatizado
+      - EMAIL_ADMIN=admin@setupautomatizado.com.br
+      - PASSWORD_ADMIN=012345617181920SENHA
+      - JWT_SECRET=nYfyX9hRm5tXzo=
+      - RABBITMQ_URL=amqp://rabbitmq:SENHA@localhost/rabbitmq
+      - URL_BACKEND_MULT100=https://api.multi100.com
+      - REDIS_URI=redis://:123456@127.0.0.1:6379
+      - TOKEN_ADMIN=012345617181920SENHA
+      - PORT=6000
+      - RABBITMQ_ENABLED_GLOBAL=false
+    network_mode: 'host'
+    logging:
+      options:
+        max-size: 10m
+        max-file: '3'
+    restart: unless-stopped
